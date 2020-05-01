@@ -1,5 +1,5 @@
 # SESC
-SESC (search engine for smart contracts) is an extension of my ContractCrawler project that allows you to search thourgh the contracts you previously crawled by inserting a keyword.
+SESC (search engine for smart contracts) is an extension of my ContractCrawler [github.com/fabritrv/ContractCrawler] project that allows you to search thourgh the contracts you previously crawled by inserting a keyword.
 
 **HOW TO USE**:
 1. Enter the folder that contains all of the source code of the contracts that you previously got using ContractCrawler
