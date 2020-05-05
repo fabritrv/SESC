@@ -9,4 +9,4 @@ SESC (search engine for smart contracts) is an extension of my ContractCrawler[h
 SESC will the return a list of smart contracts that include your keyword. The first time you search for a keyword it might take a while. After that SESC creates and alphabetical local cache to make your future search faster.
 
 **NOTE**:
-Still WIP. If you got your source codes through a different source still should still work, and it should also work with different data types but I haven't tested these options.
+Still WIP. If you got your source codes through a different source it should still work, and it should also work with different data types but I haven't tested these options.
