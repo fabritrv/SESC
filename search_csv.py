@@ -6,10 +6,10 @@ csv.field_size_limit(100000000)
 
 def by_keyword(keyword, directory, extension):
 
-    folder = os.getcwd()+"\\cache\\"
+    folder = os.getcwd()+os.sep+"cache"
     if not os.path.isdir(folder):
         os.makedirs(folder)
-    filename=folder+keyword[0]+'.csv'
+    filename=folder+os.sep+keyword[0]+'.csv'
     
     try:
         res = __search_csv(keyword, filename)
