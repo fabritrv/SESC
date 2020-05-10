@@ -1,33 +1,91 @@
 import os
 import glob
 import csv
+from concurrent.futures import ThreadPoolExecutor
 
 csv.field_size_limit(100000000)
+__address_found = {'keyword': str(''), 'address_list': list()}
+__owd = os.getcwd()
 
-def by_keyword(keyword, directory, extension):
 
-    folder = os.getcwd()+os.sep+"cache"
+def threaded_search(keyword, directory, extension, res_numb):
+    global __address_found
+    global __owd
+    __address_found['keyword']=keyword
+
+    folder = __owd+os.sep+"cache"
     if not os.path.isdir(folder):
         os.makedirs(folder)
     filename=folder+os.sep+keyword[0]+'.csv'
-    
+
     try:
         res = __search_csv(keyword, filename)
-        if res == None: #the cache for the letter exists but the word hasn't been searched yet
-            __write(keyword, directory, extension, filename)
+        if res == None: #the cache for the letter exist but it doesn't contain the keyword
+            __first_search(directory, keyword, res_numb, filename)
         else:
-            addr = res.split(',')
-            print(f'Contracts that contain "{keyword}":\n')   
-            if addr[0]=='[]':
-                print('You should try a better keyword. [0 results]')
-            else:
-                for a in addr:
-                    print(a.translate(str.maketrans({'[': '', ']': '', "'": '', " ":''})))
-                print(f'\n[{len(addr)} results]') 
+            __addr_printer(res, keyword, res_numb)
+        __empty_address_found()
         return    
     except OSError as err:  #the cache for the letter doesn't exist yet
-        __write(keyword, directory, extension, filename)
+        __first_search(directory, keyword, res_numb, filename)
+        __empty_address_found()
         return
+
+
+def __empty_address_found():
+    global __address_found
+    __address_found = {'keyword': str(''), 'address_list': list()}
+    return
+
+
+def __first_search(directory, keyword, res_numb, filename):
+    global __address_found
+
+    print(f'It is the first time that you search "{keyword}", this search could take a few minutes...')
+    __threader(os.listdir(directory), keyword, directory, res_numb)
+    __to_csv(__address_found, filename)
+    if len(__address_found['address_list'])==0:
+        print(f'Contracts that contain "{keyword}":\n\nYou should try a better keyword. [0 results found in the directory]') 
+    else:
+        if len(__address_found['address_list'])<res_numb:
+            __addr_printer(str(__address_found['address_list'][:res_numb]), keyword, res_numb)
+        print(f'\n[{len(__address_found["address_list"])}] contracts in total matched your search in the directory.')
+
+    return
+
+
+def __threader(files, keyword, directory, res_numb):
+    os.chdir(directory)
+
+    with ThreadPoolExecutor(max_workers=500) as executor:
+        for f in files:
+            executor.submit(__par_search, f, keyword, res_numb)
+
+
+def __par_search(file, keyword, res_numb):
+    global __address_found
+
+    with open(file, encoding='utf8') as f:
+        if str(keyword) in f.read():
+            __address_found['address_list'].append(file)
+            if len(__address_found['address_list'])==res_numb:
+                __addr_printer(str(__address_found['address_list'][:res_numb]), keyword, res_numb)
+
+
+def __addr_printer(result, keyword, res_numb):
+    addr = result.split(',')
+    shown = 0
+
+    print(f'Contracts that contain "{keyword}":\n')   
+    if addr[0]=='[]':
+        print('You should try a better keyword. [0 results from cache]')
+    else:
+        for a in addr[:res_numb]:
+            print(a.translate(str.maketrans({'[': '', ']': '', "'": '', " ":''})))
+            shown+=1
+        print(f'\n--- {shown} results ---')
+    
+    return
 
 
 def __to_csv(dictionary, filename):
@@ -54,27 +112,4 @@ def __search_csv(keyword, filename):
                 return(row['address_list'])
     
     return
-    
 
-
-def __write(keyword, directory, extension, filename):
-
-    address_dict = {'keyword': str(keyword), 'address_list': list()}
-    found = 0
-    owd = os.getcwd()
-    os.chdir(directory)
-
-    for file in glob.glob("*."+extension):
-        with open(os.path.join(os.getcwd(), file), encoding="utf8") as f:
-            if str(keyword) in f.read():
-                address_dict['address_list'].append(file)
-                found += 1
-
-    os.chdir(owd)
-    __to_csv(address_dict, filename)
-
-    print(f'Contracts that contain "{keyword}":\n')
-    for addr in address_dict['address_list']:
-        print(addr)
-    print(f'\n[{len(address_dict["address_list"])} results]')
-    return
