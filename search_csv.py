@@ -1,6 +1,6 @@
-import os
-import glob
 import csv
+import glob
+import os
 from concurrent.futures import ThreadPoolExecutor
 
 csv.field_size_limit(100000000)
@@ -112,4 +112,3 @@ def __search_csv(keyword, filename):
                 return(row['address_list'])
     
     return
-

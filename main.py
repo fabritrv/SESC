@@ -1,9 +1,18 @@
-import search_csv, cache_creator
 import time
 
+from cache_creator import creator, delete_cache
+from search_csv import threaded_search
+from sentence_search import combined_search
+
+
 def main(folder, extension):
-    print('\nActions:\n1 ---> Create cache\n2 ---> Search by keyword\n3 ---> Delete cache')
-    operation = input('What do you want to do? [1/2/3] ')
+    print('\nActions:')
+    print('1 ---> Create cache')
+    print('2 ---> Search by keyword')
+    print('3 ---> Search by sentence')
+    print('4 ---> Delete cache')
+    print('5 ---> Exit')
+    operation = input('What do you want to do? [1/2/3/4/5] ')
 
     if int(operation)==1:
         word_list = []
@@ -14,17 +23,26 @@ def main(folder, extension):
             word = input(f'Enter keyword number {x+1}: ')
             word_list.append(word)
         start_time = time.time()
-        cache_creator.creator(word_list, folder)
+        creator(word_list, folder)
         print("\n[%.4f seconds]\n" %(time.time() - start_time))
     elif int(operation)==2:
         print('\n-----------------------------------------------\n')
         keyword = input('Enter a keyword: ')
         res_numb = input('How many results do you want to see? ')
         start_time = time.time()
-        search_csv.threaded_search(keyword, folder, extension, int(res_numb))
+        threaded_search(keyword, folder, extension, int(res_numb))
         print("\n[%.4f seconds]\n" %(time.time() - start_time))
     elif int(operation)==3:
-        cache_creator.delete_cache()
+        print('\n-----------------------------------------------\n')
+        sentence = input('Enter a short sentence: ')
+        num_res = input('How many results do you want to see? ')
+        start_time = time.time()
+        combined_search(sentence, int(num_res))
+        print("\n[%.4f seconds]\n" %(time.time() - start_time))
+    elif int(operation)==4:
+        delete_cache()
+    elif int(operation)==5:
+        raise SystemExit
     else:
         print('Please enter a valid number.')
 

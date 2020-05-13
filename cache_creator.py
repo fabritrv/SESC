@@ -1,5 +1,8 @@
-import os, csv, shutil
+import csv
+import os
+import shutil
 from concurrent.futures import ThreadPoolExecutor
+
 from search_csv import __to_csv
 
 csv.field_size_limit(100000000)
