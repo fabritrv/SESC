@@ -25,10 +25,12 @@ def threaded_search(keyword, directory, extension, res_numb):
         else:
             __addr_printer(res, keyword, res_numb)
         __empty_address_found()
+        os.chdir(__owd)
         return    
     except OSError as err:  #the cache for the letter doesn't exist yet
         __first_search(directory, keyword, res_numb, filename)
         __empty_address_found()
+        os.chdir(__owd)
         return
 
 
