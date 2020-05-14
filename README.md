@@ -14,9 +14,8 @@ If you search by sentence SESC will take keywords from it and look for matching 
 
 
 **v3.x**:
-Added search by sentence: it is now possible to enter a sentence and search through contracts. SESC will take 5 keywords from your sentence and show a number of results ordered by relevancy (more keywords found means higher relevancy). As of now SESC only takes keywords if they are already in your cache. 
+Added search by sentence: it is now possible to enter a sentence and search through contracts. SESC will take 5 keywords from your sentence and show a number of results ordered by relevancy (more keywords found means higher relevancy). After the latest update SESC can search for keywords even if they're not in your cache. All the words that are not in your cache will be searched by scanning your contract directory so it could take a couple minutes, but after the first search every keyword included in your sentence will be added to the cache.
 To use search by sentence it is necessary to install nltk and download a few packages. You can go ahead and install the collection "all" or install single packages as you wish. SESC does not automatically do this to avoid installing something you might not want on your machine.
-This feature is still WIP but it works with restrictions in this release.
 
 
 **v2.x**:
