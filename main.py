@@ -37,7 +37,7 @@ def main(folder, extension):
         sentence = input('Enter a short sentence: ')
         num_res = input('How many results do you want to see? ')
         start_time = time.time()
-        combined_search(sentence, int(num_res))
+        combined_search(sentence, int(num_res), folder)
         print("\n[%.4f seconds]\n" %(time.time() - start_time))
     elif int(operation)==4:
         delete_cache()

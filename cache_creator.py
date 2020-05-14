@@ -31,6 +31,7 @@ def creator(word_list, folder):
 
     __threaded_multisearch(folder)
     __write_cache(directory)
+    os.chdir(__owd)
     for r in reply_list:
         print(r)
 
@@ -58,7 +59,7 @@ def __write_cache(directory):
 def __threaded_multisearch(folder):
     os.chdir(folder)
 
-    with ThreadPoolExecutor(max_workers=1) as executor:
+    with ThreadPoolExecutor(max_workers=500) as executor:
         for f in os.listdir(folder):
             executor.submit(__search_words, f)
 
@@ -71,7 +72,6 @@ def __search_words(filename):
             f.seek(0)
             if str(d['keyword']) in f.read():
                 d['address_list'].append(filename)
-
 
 
 def __in_cache(filename, word):
