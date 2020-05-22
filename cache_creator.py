@@ -13,21 +13,21 @@ to_search = []
 def creator(word_list, folder):
     global to_search
     reply_list = []
-    directory = __owd+os.sep+"cache"
+    directory = __owd + os.sep + "cache"
     if not os.path.isdir(directory):
         os.makedirs(directory)
 
     for w in word_list:
-        if w=='':
+        if w == "":
             continue
-        filename=directory+os.sep+w[0]+'.csv'
+        filename = directory + os.sep + w[0] + ".csv"
         try:
             if __in_cache(filename, w):
                 reply_list.append(f'"{w}" already in cache.')
             else:
-                to_search.append({'keyword': w, 'address_list': list()})
+                to_search.append({"keyword": w, "address_list": list()})
         except OSError as err:
-            to_search.append({'keyword': w, 'address_list': list()})
+            to_search.append({"keyword": w, "address_list": list()})
 
     __threaded_multisearch(folder)
     __write_cache(directory)
@@ -38,22 +38,22 @@ def creator(word_list, folder):
 
 def delete_cache():
     try:
-        shutil.rmtree(__owd+os.sep+'cache')
-        print('\nCache deleted.')
+        shutil.rmtree(__owd + os.sep + "cache")
+        print("\nCache deleted.")
     except FileNotFoundError as err:
-        print('\nNo cache in this folder.')
+        print("\nNo cache in this folder.")
 
 
 def __write_cache(directory):
     global to_search
 
-    print('\n')
+    print("\n")
     for d in to_search:
-        filename = directory+os.sep+d['keyword'][0]+'.csv'
+        filename = directory + os.sep + d["keyword"][0] + ".csv"
         __to_csv(d, filename)
         print(f'"{d["keyword"]}" - {len(d["address_list"])} contracts matching. ')
 
-    to_search=[]
+    to_search = []
 
 
 def __threaded_multisearch(folder):
@@ -67,18 +67,18 @@ def __threaded_multisearch(folder):
 def __search_words(filename):
     global to_search
 
-    with open(filename, encoding='utf8') as f:
+    with open(filename, encoding="utf8") as f:
         for d in to_search:
             f.seek(0)
-            if str(d['keyword']) in f.read():
-                d['address_list'].append(filename)
+            if str(d["keyword"]) in f.read():
+                d["address_list"].append(filename)
 
 
 def __in_cache(filename, word):
-    with open(filename, 'r') as file:
+    with open(filename, "r") as file:
         reader = csv.DictReader(file)
-    
+
         for row in reader:
-            if row['keyword'] == word:
+            if row["keyword"] == word:
                 return True
         return False

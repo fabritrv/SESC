@@ -1,6 +1,6 @@
 import os
-from itertools import combinations
 from concurrent.futures import ThreadPoolExecutor
+from itertools import combinations
 
 from nltk.corpus import stopwords
 from nltk.tag import pos_tag
@@ -11,7 +11,7 @@ from search_csv import __search_csv, __to_csv
 __owd = os.getcwd()
 to_search = []
 results = []
-__keys = ''
+__keys = ""
 
 
 def combined_search(sentence, num_res, folder):
@@ -19,41 +19,43 @@ def combined_search(sentence, num_res, folder):
     global __owd
     global results
     global __keys
-    directory = __owd+os.sep+"cache"
+    directory = __owd + os.sep + "cache"
     keywords = __sentece_elaborator(sentence)
     found = 0
     key_limit = 5
 
-    for index,k in enumerate(keywords):
-        if index == key_limit:  #take max 5 keywords from the sentence
+    for index, k in enumerate(keywords):
+        if index == key_limit:  # take max 5 keywords from the sentence
             break
         try:
-            res = __search_csv(k, directory+os.sep+k[0]+'.csv')
+            res = __search_csv(k, directory + os.sep + k[0] + ".csv")
             if res == None:
-                to_search.append({'keyword': k, 'address_list': list()})
+                to_search.append({"keyword": k, "address_list": list()})
             else:
-                results.append({'key': k, 'result': res})
-                __keys += k+'+'
+                results.append({"key": k, "result": res})
+                __keys += k + "+"
         except FileNotFoundError as err:
-            to_search.append({'keyword': k, 'address_list': list()})
+            to_search.append({"keyword": k, "address_list": list()})
 
     if len(to_search) != 0:
-        print('Some of your keywords are being searched  for the first time. This search could take a few minutes..')
+        print(
+            "Some of your keywords are being searched  for the first time. This search could take a few minutes.."
+        )
         __threaded_multisearch_from_dict(folder)
         __write_cache(directory)
 
-    print('Keywords: "'+__keys[:-1]+'"\n')
+    print('Keywords: "' + __keys[:-1] + '"\n')
 
     for r in __result_elaborator(results):
-        if r != 'None':
+        if r != "None":
             found += 1
             print(r)
-        if found==num_res:
+        if found == num_res:
             break
-    
+
     __resetter()
-    print(f'\n--- {found} contracts ---')
-        
+    print(f"\n--- {found} contracts ---")
+
 
 def __resetter():
     global results
@@ -62,7 +64,7 @@ def __resetter():
 
     results = []
     os.chdir(__owd)
-    __keys=''
+    __keys = ""
 
 
 def __sentece_elaborator(sentence):
@@ -70,9 +72,9 @@ def __sentece_elaborator(sentence):
     keywords = []
 
     for p in pos:
-        if p[1][0]=='N':
+        if p[1][0] == "N":
             keywords.append(p[0])
-    
+
     return keywords
 
 
@@ -81,20 +83,24 @@ def __result_elaborator(results):
     to_print = []
 
     for r in results:
-        splitted = str(r['result']).split(',')
-        address_list=[]
-        if splitted!='[]':
+        splitted = str(r["result"]).split(",")
+        address_list = []
+        if splitted != "[]":
             for address in splitted:
-                address_list.append(address.translate(str.maketrans({'[': '', ']': '', "'": '', " ":''})))
+                address_list.append(
+                    address.translate(
+                        str.maketrans({"[": "", "]": "", "'": "", " ": ""})
+                    )
+                )
             to_map.append(address_list)
 
-    for x in range (len(to_map),1,-1):
-        for c in combinations(to_map,x):
+    for x in range(len(to_map), 1, -1):
+        for c in combinations(to_map, x):
             s = set.intersection(*map(set, list(c)))
             for contract in s:
                 if contract not in to_print:
                     to_print.append(contract)
-        
+
     return to_print
 
 
@@ -109,11 +115,11 @@ def __threaded_multisearch_from_dict(folder):
 def __search_words_from_dict(filename):
     global to_search
 
-    with open(filename, encoding='utf8') as f:
+    with open(filename, encoding="utf8") as f:
         for d in to_search:
             f.seek(0)
-            if str(d['keyword']) in f.read():
-                d['address_list'].append(filename)
+            if str(d["keyword"]) in f.read():
+                d["address_list"].append(filename)
 
 
 def __write_cache(directory):
@@ -122,9 +128,9 @@ def __write_cache(directory):
     global __keys
 
     for d in to_search:
-        filename = directory+os.sep+d['keyword'][0]+'.csv'
+        filename = directory + os.sep + d["keyword"][0] + ".csv"
         __to_csv(d, filename)
-        results.append({'key': d['keyword'], 'result': d['address_list']})
-        __keys += d['keyword']+'+'
+        results.append({"key": d["keyword"], "result": d["address_list"]})
+        __keys += d["keyword"] + "+"
 
-    to_search=[]
+    to_search = []
