@@ -1,5 +1,6 @@
 import time
 
+from parser import get_functions_and_variables, get_functions_and_variables_by_address
 from cache_creator import creator, delete_cache
 from search_csv import threaded_search
 from sentence_search import combined_search
@@ -11,7 +12,9 @@ def main(folder, extension):
     print("2 ---> Search by keyword")
     print("3 ---> Search by sentence")
     print("4 ---> Delete cache")
-    print("5 ---> Exit")
+    print("5 ---> Get functions and variables for each contract")
+    print("6 ---> Get functions and variables for a single contract")
+    print("7 ---> Exit")
     operation = input("What do you want to do? [1/2/3/4/5] ")
 
     if int(operation) == 1:
@@ -48,6 +51,16 @@ def main(folder, extension):
     elif int(operation) == 4:
         delete_cache()
     elif int(operation) == 5:
+        start_time = time.time()
+        print("\nOk, this could take some time..")
+        get_functions_and_variables(folder)
+        print("\n[%.4f seconds]\n" % (time.time() - start_time))
+    elif int(operation) == 6:
+        start_time = time.time()
+        address = input("Insert address: ")
+        get_functions_and_variables_by_address(address)
+        print("\n[%.4f seconds]\n" % (time.time() - start_time))
+    elif int(operation) == 7:
         raise SystemExit
     else:
         print("Please enter a valid number.")
