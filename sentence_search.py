@@ -34,7 +34,7 @@ def combined_search(sentence, num_res, folder):
             else:
                 results.append({"key": k, "result": res})
                 __keys += k + "+"
-        except FileNotFoundError as err:
+        except FileNotFoundError:
             to_search.append({"keyword": k, "address_list": list()})
 
     if len(to_search) != 0:

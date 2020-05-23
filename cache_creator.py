@@ -26,7 +26,7 @@ def creator(word_list, folder):
                 reply_list.append(f'"{w}" already in cache.')
             else:
                 to_search.append({"keyword": w, "address_list": list()})
-        except OSError as err:
+        except OSError:
             to_search.append({"keyword": w, "address_list": list()})
 
     __threaded_multisearch(folder)
@@ -40,7 +40,7 @@ def delete_cache():
     try:
         shutil.rmtree(__owd + os.sep + "cache")
         print("\nCache deleted.")
-    except FileNotFoundError as err:
+    except FileNotFoundError:
         print("\nNo cache in this folder.")
 
 
