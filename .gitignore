@@ -3,3 +3,4 @@ cache
 .vscode
 venv
 parser
+.DS_Store
