@@ -7,14 +7,16 @@ from nltk.tag import pos_tag
 from nltk.tokenize import word_tokenize
 
 from search_csv import __search_csv, __to_csv
+from parser import get_functions_and_variables_by_address
 
 __owd = os.getcwd()
 to_search = []
 results = []
 __keys = ""
+__fnv = False
 
 
-def combined_search(sentence, num_res, folder):
+def combined_search(sentence, num_res, folder, fnv):
     global to_search
     global __owd
     global results
@@ -23,6 +25,9 @@ def combined_search(sentence, num_res, folder):
     keywords = __sentece_elaborator(sentence)
     found = 0
     key_limit = 5
+    global __fnv
+
+    __fnv = fnv
 
     for index, k in enumerate(keywords):
         if index == key_limit:  # take max 5 keywords from the sentence
@@ -50,6 +55,9 @@ def combined_search(sentence, num_res, folder):
         if r != "None":
             found += 1
             print(r)
+            if __fnv:
+                get_functions_and_variables_by_address(r, __owd)
+                print("\n\n")
         if found == num_res:
             break
 

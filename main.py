@@ -38,15 +38,29 @@ def main(folder, extension):
         print("\n-----------------------------------------------\n")
         keyword = input("Enter a keyword: ")
         res_numb = input("How many results do you want to see? ")
+        fnv = input(
+            "Do you want to see functions and variables for the contracts that match your search? [y/n] "
+        )
+        if fnv == "y":
+            param = True
+        else:
+            param = False
         start_time = time.time()
-        threaded_search(keyword, folder, extension, int(res_numb))
+        threaded_search(keyword, folder, extension, int(res_numb), param)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 3:
         print("\n-----------------------------------------------\n")
         sentence = input("Enter a short sentence: ")
         num_res = input("How many results do you want to see? ")
+        fnv = input(
+            "Do you want to see functions and variables for the contracts that match your search? [y/n] "
+        )
+        if fnv == "y":
+            param = True
+        else:
+            param = False
         start_time = time.time()
-        combined_search(sentence, int(num_res), folder)
+        combined_search(sentence, int(num_res), folder, param)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 4:
         delete_cache()
@@ -56,8 +70,8 @@ def main(folder, extension):
         get_functions_and_variables(folder)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 6:
-        start_time = time.time()
         address = input("Insert address: ")
+        start_time = time.time()
         get_functions_and_variables_by_address(address)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 7:

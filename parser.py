@@ -48,8 +48,8 @@ def get_functions_and_variables(folder):
     print(f"\nDone: {done}\nSkipped: {skipped}")
 
 
-def get_functions_and_variables_by_address(address):
-    directory = __owd + os.sep + "parser"
+def get_functions_and_variables_by_address(address, owd=__owd):
+    directory = owd + os.sep + "parser"
     if not os.path.isdir(directory):
         os.makedirs(directory)
     filename = directory + os.sep + "functions_and_variables.csv"

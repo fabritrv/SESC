@@ -3,15 +3,21 @@ import glob
 import os
 from concurrent.futures import ThreadPoolExecutor
 
+from parser import get_functions_and_variables_by_address
+
 csv.field_size_limit(100000000)
 __address_found = {"keyword": str(""), "address_list": list()}
 __owd = os.getcwd()
+__fnv = False
 
 
-def threaded_search(keyword, directory, extension, res_numb):
+def threaded_search(keyword, directory, extension, res_numb, fnv):
     global __address_found
     global __owd
     __address_found["keyword"] = keyword
+    global __fnv
+
+    __fnv = fnv
 
     folder = __owd + os.sep + "cache"
     if not os.path.isdir(folder):
@@ -89,13 +95,18 @@ def __par_search(file, keyword, res_numb):
 def __addr_printer(result, keyword, res_numb):
     addr = result.split(",")
     shown = 0
+    global __fnv
 
     print(f'Contracts that contain "{keyword}":\n')
     if addr[0] == "[]":
         print("You should try a better keyword. [0 results from cache]")
     else:
         for a in addr[:res_numb]:
-            print(a.translate(str.maketrans({"[": "", "]": "", "'": "", " ": ""})))
+            address = a.translate(str.maketrans({"[": "", "]": "", "'": "", " ": ""}))
+            print(address)
+            if __fnv:
+                get_functions_and_variables_by_address(address, __owd)
+                print("\n\n")
             shown += 1
         print(f"\n--- {shown} results ---")
 
