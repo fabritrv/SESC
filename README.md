@@ -16,7 +16,7 @@ If you search by sentence SESC will take keywords from it and look for matching 
 The option to get a contract's functions and variables is now also available in search results. See v4.x for more details.
 I highly reccomed reading v5.x notes before using the graph. Hopefully your machine is powerful enough to complete the task (I lowered the number of rendered data to allow everyone to use, but I can't guarantee it).
 
-'requirements.txt' now available to quickly let users install the needed packages and libraries. The list got kinda big, but unfortunately it is required to use the parser and the graph functionalities.
+'requirements.txt' now available to quickly let users install the needed packages and libraries. The list got kinda big, but unfortunately it is required to use the parser and the graph functionalities. Some of the packages inside are dependencies of the parser I used, so feel free to trim it down!
 
 
 **v5.x**:
