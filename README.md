@@ -27,6 +27,7 @@ The similarity is determined using edlib.align(), which uses Levenshtein distanc
 I then used the distance to calculate a similarity coefficient, dividing it by the length of the string that contaions functions and variables, that the parser returned eariler. This coefficient was then turned into a number that indicates a percentage of difference between the parser results for two contracts.
 As Levenshtein distance represents difference the weight of the edges is (100-similarity coeff.), that's why thicker edges==more weight==similar contracts.
 One last note: to create the graph you must run the parser first!
+THE PRINT GRAPH FUNCTIONALITY HAS BEEN REPLACED by default but it still exists, just uncomment it to use it. Instead the graph is now transformed into a json file that shows the 200 best matching results. I'm working on a better visual approach to showing the graph, which will use this json.
 
 
 **v4.x**:
