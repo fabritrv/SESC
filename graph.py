@@ -5,6 +5,7 @@ from operator import itemgetter
 import edlib
 import networkx
 import matplotlib.pyplot as plt
+import json
 
 
 def create(address):
@@ -46,7 +47,7 @@ def create(address):
                                 int(round(similarity_coeff, 0)), -1
                             )  # round it to multiples of 10
                             compare_node = compare_row["address"]
-                            if weight < 40:  # require at least 60% matching
+                            if weight <= 30:  # require at least 70% matching
                                 uwgraph.add_edge(
                                     source_node,
                                     compare_node,
@@ -54,13 +55,16 @@ def create(address):
                                         100 - weight
                                     ),  # the weight of the edge is bigger when the contracts are similar
                                 )
+                            """
                             if (
-                                uwgraph.number_of_edges() > 59
-                            ):  # show 60 results in the graph
+                                uwgraph.number_of_edges() > 69
+                            ):  # show 60 results in the graph, limits the number of results if your machine isn't powerful enough and if you want to print the graph
                                 break
+                            """
                     break
-        print_graph(uwgraph)
-        show_neighbors(uwgraph[address], address)
+        # print_graph(uwgraph)
+        # show_neighbors(uwgraph[address], address)
+        to_json(uwgraph[address], address)
     except FileNotFoundError:
         print("To create the graph you have to run the parser first!")
 
@@ -92,3 +96,28 @@ def show_neighbors(neighbors, address):
     print("\nThe results seen in the graph:")
     for printable in sorted(to_print, key=itemgetter("weight"), reverse=True):
         print(f'{printable["address"]} - {printable["weight"]}% match')
+
+
+def to_json(neighbors, address):
+    possible_weights = [
+        # {"name": 60, "children": list()}, depending on the lowest percentage of matching required
+        {"name": 70, "children": list()},
+        {"name": 80, "children": list()},
+        {"name": 90, "children": list()},
+        {"name": 100, "children": list()},
+    ]
+    layout = {"name": address, "children": possible_weights}
+    for count, n in enumerate(
+        sorted(neighbors.items(), key=lambda e: int(e[1]["weight"]), reverse=True)
+    ):
+        if n[0] != address:
+            for sub_lay in layout["children"]:
+                weight = int(n[1]["weight"])
+                if sub_lay["name"] == weight:
+                    to_add = {"name": n[0], "value": weight}
+                    sub_lay["children"].append(to_add)
+        if count >= 200:
+            break
+    filename = address[:-4] + ".json"
+    with open(filename, "w") as fp:
+        json.dump(layout, fp, indent=4)

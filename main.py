@@ -81,9 +81,6 @@ def main(folder, extension):
     elif int(operation) == 0:
         address = input("Please enter a contract (eg. 'address.sol'): ")
         print("Creating the graph...")
-        print(
-            "Note: thicker and darker lines between nodes means they share similar functions and variables."
-        )
         start_time = time.time()
         create(address)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
