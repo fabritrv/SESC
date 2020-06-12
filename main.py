@@ -80,7 +80,7 @@ def main(folder, extension):
         raise SystemExit
     elif int(operation) == 0:
         address = input("Please enter a contract (eg. 'address.sol'): ")
-        print("Creating the graph...")
+        print("Processing the graph...")
         start_time = time.time()
         create(address)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
