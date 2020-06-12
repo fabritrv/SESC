@@ -23,6 +23,7 @@ I highly reccomed reading v5.x notes before using the graph. Hopefully your mach
 
 
 **DISPLAY BETTER RESULTS**:
+
 SESC now shows results in a better and more intuitive way. When you run one of the functionalities a JSON will be produced, in particular
 1. Graph --> generates a JSON that can create a dendrogram
 2. Search by sentence --> generates a JSON that can create a circle packing
