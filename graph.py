@@ -1,10 +1,10 @@
 import csv
+import json
 import os
 from operator import itemgetter
 
 import edlib
 import networkx
-import json
 
 
 def create(address):
@@ -102,5 +102,5 @@ def to_json(neighbors, address):
     if not os.path.isdir(folder):
         os.makedirs(folder)
     filename = folder + os.sep + "files" + os.sep + "graph.json"
-    with open(filename, "w") as fp:
+    with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)

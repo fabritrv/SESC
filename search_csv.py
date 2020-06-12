@@ -152,5 +152,5 @@ def __to_json(results, keyword):
     if not os.path.isdir(folder):
         os.makedirs(folder)
     filename = folder + os.sep + "files" + os.sep + "single_search.json"
-    with open(filename, "w") as fp:
+    with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)

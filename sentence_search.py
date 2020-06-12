@@ -178,7 +178,7 @@ def __to_json(possible_matches):
     if not os.path.isdir(folder):
         os.makedirs(folder)
     filename = folder + os.sep + "files" + os.sep + "search_results.json"
-    with open(filename, "w") as fp:
+    with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)
 
 

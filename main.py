@@ -2,9 +2,9 @@ import time
 
 from parser import get_functions_and_variables, get_functions_and_variables_by_address
 from cache_creator import creator, delete_cache
+from graph import create
 from search_csv import threaded_search
 from sentence_search import combined_search
-from graph import create
 
 
 def main(folder, extension):
