@@ -21,7 +21,8 @@ I highly reccomed reading v5.x notes before using the graph. Hopefully your mach
 'requirements.txt' now available to quickly let users install the needed packages and libraries. The list got kinda big, but unfortunately it is required to use the parser and the graph functionalities. Some of the packages inside are dependencies of the parser I used, so feel free to trim it down!
 
 
-**DISPLAY BETTER RESULTS**
+
+**DISPLAY BETTER RESULTS**:
 SESC now shows results in a better and more intuitive way. When you run one of the functionalities a JSON will be produced, in particular
 1. Graph --> generates a JSON that can create a dendrogram
 2. Search by sentence --> generates a JSON that can create a circle packing
@@ -35,6 +36,7 @@ python3 -m http.server
 then open your browser and go to localhost:8000. A small menu will appear, now you just have to select what you want to visualize and that's it. Credits, notes and details as well.
 
 Remember to interrupt the http server when done with the operations. At times browsers tend to cache web pages for longer than expected so if some of the results aren't updating consider clearing you browser's cache.
+
 
 
 **v5.x**:
