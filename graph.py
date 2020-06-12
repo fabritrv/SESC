@@ -4,7 +4,6 @@ from operator import itemgetter
 
 import edlib
 import networkx
-import matplotlib.pyplot as plt
 import json
 
 
@@ -62,30 +61,11 @@ def create(address):
                                 break
                             """
                     break
-        # print_graph(uwgraph)
-        # show_neighbors(uwgraph[address], address)
+        show_neighbors(uwgraph[address], address)
         to_json(uwgraph[address], address)
+        print("\nA .json of the graph was created.")
     except FileNotFoundError:
         print("To create the graph you have to run the parser first!")
-
-
-def print_graph(graph):
-    elarge = [(u, v) for (u, v, d) in graph.edges(data=True) if d["weight"] > 70]
-    esmall = [(u, v) for (u, v, d) in graph.edges(data=True) if d["weight"] <= 70]
-    pos = networkx.spring_layout(graph)
-    # nodes
-    networkx.draw_networkx_nodes(graph, pos, node_size=150)
-    # edges
-    networkx.draw_networkx_edges(graph, pos, edgelist=elarge, width=3)
-    networkx.draw_networkx_edges(
-        graph, pos, edgelist=esmall, width=3, alpha=0.5, edge_color="b", style="dashed"
-    )
-    # labels
-    networkx.draw_networkx_labels(
-        graph, pos, font_size=5, font_family="sans-serif", alpha=0.5, font_weight="bold"
-    )
-    plt.axis("off")
-    plt.show()
 
 
 def show_neighbors(neighbors, address):
@@ -118,6 +98,9 @@ def to_json(neighbors, address):
                     sub_lay["children"].append(to_add)
         if count >= 200:
             break
-    filename = address[:-4] + ".json"
+    folder = "localh" + os.sep + "dendrogram"
+    if not os.path.isdir(folder):
+        os.makedirs(folder)
+    filename = folder + os.sep + "files" + os.sep + "graph.json"
     with open(filename, "w") as fp:
         json.dump(layout, fp, indent=4)
