@@ -1,6 +1,7 @@
 import os
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
+import json
 
 from nltk.corpus import stopwords
 from nltk.tag import pos_tag
@@ -51,7 +52,7 @@ def combined_search(sentence, num_res, folder, fnv):
 
     print('Keywords: "' + __keys[:-1] + '"\n')
 
-    for r in __result_elaborator(results):
+    for r in __result_elaborator(results, num_res):
         if r != "None":
             found += 1
             print(r)
@@ -63,6 +64,7 @@ def combined_search(sentence, num_res, folder, fnv):
 
     __resetter()
     print(f"\n--- {found} contracts ---")
+    print("\nA .json of the results was created.")
 
 
 def __resetter():
@@ -86,7 +88,7 @@ def __sentece_elaborator(sentence):
     return keywords
 
 
-def __result_elaborator(results):
+def __result_elaborator(results, num_res):
     to_map = []
     to_print = []
 
@@ -102,13 +104,31 @@ def __result_elaborator(results):
                 )
             to_map.append(address_list)
 
+    possible_matches = []
+    i = 0
+    res = 0
+    match = {}
     for x in range(len(to_map), 1, -1):
         for c in combinations(to_map, x):
             s = set.intersection(*map(set, list(c)))
             for contract in s:
                 if contract not in to_print:
+                    if res <= num_res:
+                        if x != i:
+                            i = x
+                            match = {"name": x, "children": list()}
+                            value = __get_size(x)
+                        match["children"].append(
+                            {"name": contract[:-4], "value": value}
+                        )
+                        res += 1
                     to_print.append(contract)
-
+        try:
+            if possible_matches[-1]["name"] != i:
+                possible_matches.append(match)
+        except (IndexError, KeyError):
+            possible_matches.append(match)
+    __to_json(possible_matches)
     return to_print
 
 
@@ -142,3 +162,34 @@ def __write_cache(directory):
         __keys += d["keyword"] + "+"
 
     to_search = []
+
+
+def __to_json(possible_matches):
+    global __owd
+    global __keys
+    key_num = len(__keys[:-1].split("+"))
+    for to_remove in list(possible_matches):
+        if to_remove == {}:
+            possible_matches.remove(to_remove)
+        else:
+            to_remove["name"] = str((to_remove["name"] * 100) / key_num) + "% matching"
+    layout = {"name": __keys[:-1], "children": possible_matches}
+    folder = __owd + os.sep + "localh" + os.sep + "search_results"
+    if not os.path.isdir(folder):
+        os.makedirs(folder)
+    filename = folder + os.sep + "files" + os.sep + "search_results.json"
+    with open(filename, "w") as fp:
+        json.dump(layout, fp, indent=4)
+
+
+def __get_size(num_comb):
+    if num_comb == 5:
+        return 1000
+    elif num_comb == 4:
+        return 200
+    elif num_comb == 3:
+        return 10
+    elif num_comb == 2:
+        return 2
+    else:
+        return 1
