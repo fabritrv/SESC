@@ -174,10 +174,10 @@ def __to_json(possible_matches):
         else:
             to_remove["name"] = str((to_remove["name"] * 100) / key_num) + "% matching"
     layout = {"name": __keys[:-1], "children": possible_matches}
-    folder = __owd + os.sep + "localh" + os.sep + "search_results"
+    folder = __owd + os.sep + "localh" + os.sep + "search_results" + os.sep + "files"
     if not os.path.isdir(folder):
         os.makedirs(folder)
-    filename = folder + os.sep + "files" + os.sep + "search_results.json"
+    filename = folder + os.sep + "search_results.json"
     with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)
 

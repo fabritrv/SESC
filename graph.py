@@ -98,9 +98,9 @@ def to_json(neighbors, address):
                     sub_lay["children"].append(to_add)
         if count >= 200:
             break
-    folder = "localh" + os.sep + "dendrogram"
+    folder = "localh" + os.sep + "dendrogram" + os.sep + "files"
     if not os.path.isdir(folder):
         os.makedirs(folder)
-    filename = folder + os.sep + "files" + os.sep + "graph.json"
+    filename = folder + os.sep + "graph.json"
     with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)

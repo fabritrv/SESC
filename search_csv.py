@@ -148,9 +148,9 @@ def __to_json(results, keyword):
     layout["children"].append({"name": "results", "children": list()})
     for r in results:
         layout["children"][0]["children"].append({"name": r, "value": 1})
-    folder = __owd + os.sep + "localh" + os.sep + "single_search"
+    folder = __owd + os.sep + "localh" + os.sep + "single_search" + os.sep + "files"
     if not os.path.isdir(folder):
         os.makedirs(folder)
-    filename = folder + os.sep + "files" + os.sep + "single_search.json"
+    filename = folder + os.sep + "single_search.json"
     with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)
