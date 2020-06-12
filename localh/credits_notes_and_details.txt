@@ -1,0 +1,14 @@
+This section was developed by editing and adapting some parts of:
+ https://observablehq.com/@d3/radial-dendrogram by Mike Bostock
+ https://observablehq.com/@d3/circle-packing by Mike Bostock
+ https://observablehq.com/@d3/indented-tree?collection=@d3/d3-hierarchy
+ A big thank you to him of course. Have a look at his great work if you liked what you saw here.
+
+What I changed:
+index.html  --> changed css reference, added a style class
+index.js    --> changed path to the dendrogram/circle packing/tree
+modified_dendrogram_192.css --> changed paths, texts, some parameters of the dendrogram, colours of the circles, visibility of tree elements
+inspector.css   --> hid some of the outputs in order to avoid changes in runtime.js
+
+What I did not change:
+runtime.js
