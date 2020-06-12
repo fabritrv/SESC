@@ -2,6 +2,7 @@ import csv
 import glob
 import os
 from concurrent.futures import ThreadPoolExecutor
+import json
 
 from parser import get_functions_and_variables_by_address
 
@@ -96,6 +97,7 @@ def __addr_printer(result, keyword, res_numb):
     addr = result.split(",")
     shown = 0
     global __fnv
+    res_list = []
 
     print(f'Contracts that contain "{keyword}":\n')
     if addr[0] == "[]":
@@ -104,12 +106,13 @@ def __addr_printer(result, keyword, res_numb):
         for a in addr[:res_numb]:
             address = a.translate(str.maketrans({"[": "", "]": "", "'": "", " ": ""}))
             print(address)
+            res_list.append(address)
             if __fnv:
                 get_functions_and_variables_by_address(address, __owd)
                 print("\n\n")
             shown += 1
         print(f"\n--- {shown} results ---")
-
+    __to_json(res_list, keyword)
     return
 
 
@@ -137,3 +140,17 @@ def __search_csv(keyword, filename):
                 return row["address_list"]
 
     return
+
+
+def __to_json(results, keyword):
+    global __owd
+    layout = {"name": keyword, "children": list()}
+    layout["children"].append({"name": "results", "children": list()})
+    for r in results:
+        layout["children"][0]["children"].append({"name": r, "value": 1})
+    folder = __owd + os.sep + "localh" + os.sep + "single_search"
+    if not os.path.isdir(folder):
+        os.makedirs(folder)
+    filename = folder + os.sep + "files" + os.sep + "single_search.json"
+    with open(filename, "w") as fp:
+        json.dump(layout, fp, indent=4)
