@@ -3,7 +3,6 @@ from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 import json
 
-from nltk.corpus import stopwords
 from nltk.tag import pos_tag
 from nltk.tokenize import word_tokenize
 
