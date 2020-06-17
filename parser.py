@@ -4,13 +4,11 @@ import sys
 
 from solidity_parser import parser
 
-sys.setrecursionlimit(10000000)
+sys.setrecursionlimit(1000000000)
 __owd = os.getcwd()
 
 
 def get_functions_and_variables(folder):
-    skipped = 0
-    done = 0
     directory = __owd + os.sep + "parser"
     if not os.path.isdir(directory):
         os.makedirs(directory)
@@ -20,9 +18,11 @@ def get_functions_and_variables(folder):
         fieldnames = ["address", "functions", "variables"]
         w = csv.DictWriter(out_file, fieldnames)
         w.writeheader()
-        for f in os.listdir(os.getcwd()):
+        for counter, f in enumerate(os.listdir(os.getcwd())):
             try:
-                contract_dict = {"address": f, "functions": set(), "variables": set()}
+                contract_dict = {"address": f, "functions": list(), "variables": list()}
+                func_set = set()
+                var_set = set()
                 sys.stdout = open(os.devnull, "w")
                 sourceUnit = parser.parse_file(
                     f
@@ -32,20 +32,20 @@ def get_functions_and_variables(folder):
                     if c["type"] == "ContractDefinition":
                         for s in c["subNodes"]:
                             try:
-                                contract_dict["functions"].add(s["name"])
-                                done += 1
+                                func_set.add(s["name"])
                             except:
                                 if s["type"] == "UsingForDeclaration":
                                     continue
-                                contract_dict["variables"].add(
-                                    s["variables"][0]["name"]
-                                )
-                                done += 1
+                                var_set.add(s["variables"][0]["name"])
+                add_f = sorted(func_set, key=str.casefold)
+                add_v = sorted(var_set, key=str.casefold)
+                contract_dict["functions"] = add_f
+                contract_dict["variables"] = add_v
                 w.writerow(contract_dict)
             except (UnicodeDecodeError, TypeError, AttributeError):
-                skipped += 1
+                continue
     os.chdir(__owd)
-    print(f"\nDone: {done}\nSkipped: {skipped}")
+    print(f"\nDone: {counter}")
 
 
 def get_functions_and_variables_by_address(address, owd=__owd):
