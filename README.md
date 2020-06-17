@@ -14,9 +14,10 @@ The available options are:
 1. Create cache --> Enter 20 keyword and search them at once to create the cache. This will speed up your next searches.
 2. Search by keyword --> Enter a keyword and the number of results you want to see. If you already parsed the contracts you'll be able to get even more details.
 3. Search by sentence --> See v.3.x notes.
-4. Delete cache
-5. Parse each contract present in the directory you specified when launching SESC
-6. Parse a single contract --> Just enter its address and get its functions and variables
+4. Delete cache.
+5. Parse each contract present in the directory you specified when launching SESC.
+6. Parse a single contract --> Just enter its address and get its functions and variables.
+7. Exit.
 
 
 I highly reccomed reading the rest of the notes before using this software.
