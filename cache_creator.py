@@ -17,7 +17,8 @@ def creator(word_list, folder):
     if not os.path.isdir(directory):
         os.makedirs(directory)
 
-    for w in word_list:
+    wl = set(map(lambda x: x.lower(), word_list))
+    for w in wl:
         if w == "":
             continue
         filename = directory + os.sep + w[0] + ".csv"
@@ -70,7 +71,7 @@ def __search_words(filename):
     with open(filename, encoding="utf8") as f:
         for d in to_search:
             f.seek(0)
-            if str(d["keyword"]) in f.read():
+            if str(d["keyword"]) in f.read().lower():
                 d["address_list"].append(filename)
 
 
