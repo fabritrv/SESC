@@ -15,7 +15,7 @@ __fnv = False
 def threaded_search(keyword, directory, extension, res_numb, fnv):
     global __address_found
     global __owd
-    __address_found["keyword"] = keyword
+    __address_found["keyword"] = keyword.lower()
     global __fnv
 
     __fnv = fnv
@@ -23,21 +23,21 @@ def threaded_search(keyword, directory, extension, res_numb, fnv):
     folder = __owd + os.sep + "cache"
     if not os.path.isdir(folder):
         os.makedirs(folder)
-    filename = folder + os.sep + keyword[0] + ".csv"
+    filename = folder + os.sep + keyword[0].lower() + ".csv"
 
     try:
-        res = __search_csv(keyword, filename)
+        res = __search_csv(keyword.lower(), filename)
         if (
             res == None
         ):  # the cache for the letter exist but it doesn't contain the keyword
-            __first_search(directory, keyword, res_numb, filename)
+            __first_search(directory, keyword.lower(), res_numb, filename)
         else:
-            __addr_printer(res, keyword, res_numb)
+            __addr_printer(res, keyword.lower(), res_numb)
         __empty_address_found()
         os.chdir(__owd)
         return
     except OSError:  # the cache for the letter doesn't exist yet
-        __first_search(directory, keyword, res_numb, filename)
+        __first_search(directory, keyword.lower(), res_numb, filename)
         __empty_address_found()
         os.chdir(__owd)
         return
@@ -85,7 +85,7 @@ def __par_search(file, keyword, res_numb):
     global __address_found
 
     with open(file, encoding="utf8") as f:
-        if str(keyword) in f.read():
+        if str(keyword) in f.read().lower():
             __address_found["address_list"].append(file)
             if len(__address_found["address_list"]) == res_numb:
                 __addr_printer(

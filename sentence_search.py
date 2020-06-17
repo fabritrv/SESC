@@ -33,7 +33,7 @@ def combined_search(sentence, num_res, folder, fnv):
         if index == key_limit:  # take max 5 keywords from the sentence
             break
         try:
-            res = __search_csv(k, directory + os.sep + k[0] + ".csv")
+            res = __search_csv(k, directory + os.sep + k[0].lower() + ".csv")
             if res == None:
                 to_search.append({"keyword": k, "address_list": list()})
             else:
@@ -82,7 +82,7 @@ def __sentece_elaborator(sentence):
 
     for p in pos:
         if p[1][0] == "N":
-            keywords.append(p[0])
+            keywords.append(p[0].lower())
 
     return keywords
 
@@ -145,7 +145,7 @@ def __search_words_from_dict(filename):
     with open(filename, encoding="utf8") as f:
         for d in to_search:
             f.seek(0)
-            if str(d["keyword"]) in f.read():
+            if str(d["keyword"]) in f.read().lower():
                 d["address_list"].append(filename)
 
 
@@ -155,7 +155,7 @@ def __write_cache(directory):
     global __keys
 
     for d in to_search:
-        filename = directory + os.sep + d["keyword"][0] + ".csv"
+        filename = directory + os.sep + d["keyword"][0].lower() + ".csv"
         __to_csv(d, filename)
         results.append({"key": d["keyword"], "result": d["address_list"]})
         __keys += d["keyword"] + "+"
