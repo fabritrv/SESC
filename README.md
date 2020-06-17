@@ -9,6 +9,7 @@ SESC (search engine for smart contracts) is an extension of my [ContractCrawler]
 4. I suggets you to create the cache and run the parser first.
 
 The available options are:
+
 0. Create graph --> See v.5.x notes.
 1. Create cache --> Enter 20 keyword and search them at once to create the cache. This will speed up your next searches.
 2. Search by keyword --> Enter a keyword and the number of results you want to see. If you already parsed the contracts you'll be able to get even more details.
