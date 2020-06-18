@@ -82,7 +82,7 @@ def main(folder, extension):
         address = input("Please enter a contract (eg. 'address.sol'): ")
         print("Processing the graph...")
         start_time = time.time()
-        create(address)
+        create(address, folder)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     else:
         print("Please enter a valid number.")

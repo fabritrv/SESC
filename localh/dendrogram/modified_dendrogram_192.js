@@ -9,7 +9,8 @@ export default function define(runtime, observer) {
 
 This is a visual representation of the similarity graph, genereted using the .json created by SESC and D3’s [radial dendrogram](https://observablehq.com/@d3/radial-dendrogram).
 As you can see the results are divided by matching percentage, the minimum level of similarity required is 70%. 
-The number of results is currently limited to the best 200 matching contracts, in order to keep the  dendrogram readable.`
+The number of results is currently limited to the best 200 matching contracts, in order to keep the  dendrogram readable.<br>
+To view the source code of the central node click [here](http://localhost:8000/dendrogram/files/source.txt).`
     )
   });
   main.variable(observer("chart")).define("chart", ["tree", "d3", "data", "autoBox"], function (tree, d3, data, autoBox) {

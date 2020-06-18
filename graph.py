@@ -7,7 +7,7 @@ import edlib
 import networkx
 
 
-def create(address):
+def create(address, directory):
     filename = os.getcwd() + os.sep + "parser" + os.sep + "functions_and_variables.csv"
     uwgraph = networkx.Graph()
     try:
@@ -63,6 +63,7 @@ def create(address):
                     break
         show_neighbors(uwgraph[address], address)
         to_json(uwgraph[address], address)
+        get_source_code(address, directory)
         print("\nA .json of the graph was created.")
     except FileNotFoundError:
         print("To create the graph you have to run the parser first!")
@@ -104,3 +105,15 @@ def to_json(neighbors, address):
     filename = folder + os.sep + "graph.json"
     with open(filename, "w+") as fp:
         json.dump(layout, fp, indent=4)
+
+
+def get_source_code(address, directory):
+    owd = os.getcwd()
+    os.chdir(directory)
+    with open(address, "r") as f:
+        source_code = f.read()
+    os.chdir(owd)
+    destination_dir = "localh" + os.sep + "dendrogram" + os.sep + "files"
+    destination_f = destination_dir + os.sep + "source.txt"
+    with open(destination_f, "w+") as destination:
+        destination.write(source_code)
