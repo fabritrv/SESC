@@ -5,3 +5,4 @@ venv
 parser
 .DS_Store
 *.json
+localh/dendrogram/files/
