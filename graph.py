@@ -115,5 +115,5 @@ def get_source_code(address, directory):
     os.chdir(owd)
     destination_dir = "localh" + os.sep + "dendrogram" + os.sep + "files"
     destination_f = destination_dir + os.sep + "source.txt"
-    with open(destination_f, "w+") as destination:
+    with open(destination_f, "w+", encoding="utf8") as destination:
         destination.write(source_code)
