@@ -22,7 +22,7 @@ def combined_search(sentence, num_res, folder, fnv):
     global results
     global __keys
     directory = __owd + os.sep + "cache"
-    keywords = __sentece_elaborator(sentence)
+    keywords = __sentece_elaborator(sentence)  # applies nltk methods to filter keywords
     found = 0
     key_limit = 5
     global __fnv

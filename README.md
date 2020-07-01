@@ -72,6 +72,5 @@ Added the option to create and delete the cache.
 
 
 **NOTE**:
-If you got your source codes through a different source it should still work, and it should also work with different data types but I can't promise this as I can't test
-using your source code.
+If you got your source codes through a different source it should still work as long as the source code of the smart contracts is well written.
 For any question, clarification or need (especially if you need contracts source codes etc.) email me and I will hit you back!

@@ -7,7 +7,10 @@ import json
 from parser import get_functions_and_variables_by_address
 
 csv.field_size_limit(100000000)
-__address_found = {"keyword": str(""), "address_list": list()}
+__address_found = {
+    "keyword": str(""),
+    "address_list": list(),
+}  # this variable will be used to store the search results
 __owd = os.getcwd()
 __fnv = False
 

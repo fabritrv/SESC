@@ -88,7 +88,9 @@ def main(folder, extension):
         print("Please enter a valid number.")
 
 
-folder = input("\nEnter the path to the directory that contains your source codes: ")
+folder = input(
+    "\nEnter the path to the directory that contains your source codes: "
+)  # must specify full path to the files
 extension = input("Are your file .sol or .txt? [sol/txt] ")
-while True:
+while True:  # loops the main until quit
     main(folder, extension)

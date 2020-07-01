@@ -57,7 +57,7 @@ def __write_cache(directory):
     to_search = []
 
 
-def __threaded_multisearch(folder):
+def __threaded_multisearch(folder):  # threaded search
     os.chdir(folder)
 
     with ThreadPoolExecutor(max_workers=500) as executor:

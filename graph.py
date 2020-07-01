@@ -61,9 +61,11 @@ def create(address, directory):
                                 break
                             """
                     break
-        show_neighbors(uwgraph[address], address)
+        show_neighbors(uwgraph[address], address)  # prints similar contract to terminal
         to_json(uwgraph[address], address)
-        get_source_code(address, directory)
+        get_source_code(
+            address, directory
+        )  # adds the source code of the central node to a folder inside localh
         print("\nA .json of the graph was created.")
     except FileNotFoundError:
         print("To create the graph you have to run the parser first!")
