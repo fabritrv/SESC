@@ -4,7 +4,7 @@ import sys
 
 from solidity_parser import parser
 
-sys.setrecursionlimit(1000000000)
+sys.setrecursionlimit(1000000000)  # adjust in case you have problems with the parser
 __owd = os.getcwd()
 
 
