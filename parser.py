@@ -14,7 +14,7 @@ def get_functions_and_variables(folder):
         os.makedirs(directory)
     os.chdir(folder)
     filename = (
-        directory + os.sep + "functions_and_variables_new.csv"
+        directory + os.sep + "functions_and_variables.csv"
     )  # this file is also used in Contracts Analytics
     with open(filename, "a") as out_file:
         fieldnames = ["address", "functions", "variables"]
