@@ -74,7 +74,10 @@ def main(folder, extension):
     elif int(operation) == 6:
         address = input("Please enter a contract (eg. 'address.sol'): ")
         start_time = time.time()
-        get_functions_and_variables_by_address(address)
+        try:
+            get_functions_and_variables_by_address(address)
+        except FileNotFoundError:
+            print("To use this functionality please parse all the source codes first.")
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 7:
         raise SystemExit
