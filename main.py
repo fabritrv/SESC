@@ -72,7 +72,7 @@ def main(folder, extension):
         get_functions_and_variables(folder)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
     elif int(operation) == 6:
-        address = input("Insert address: ")
+        address = input("Please enter a contract (eg. 'address.sol'): ")
         start_time = time.time()
         get_functions_and_variables_by_address(address)
         print("\n[%.4f seconds]\n" % (time.time() - start_time))
